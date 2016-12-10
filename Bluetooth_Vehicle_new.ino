@@ -7,6 +7,7 @@ const int LFI = 2;
 const int LRI = 3;
 const int RFI = 4;
 const int RRI = 5;
+const int STAT = 12;
 
 const int LCtr = 9;
 const int RCtr = 10;
@@ -17,8 +18,9 @@ void setup() {
   pinMode(RCtr,OUTPUT);
   pinMode(LFI,OUTPUT);
   pinMode(LRI,OUTPUT);
-  digitalWrite(LFI, HIGH);
-  digitalWrite(LRI, HIGH);
+  pinMode(STAT,INPUT_PULLUP);
+  digitalWrite(LFI, LOW);
+  digitalWrite(LRI, LOW);
   analogWrite(LCtr,0);
   analogWrite(RCtr,0);
   Serial.begin(9600);
@@ -26,6 +28,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  while(digitalRead(STAT)==0){
+    analogWrite(LCtr, 0);
+    analogWrite(RCtr, 0);
+    digitalWrite(13,HIGH);
+  }
+
+  digitalWrite(13,LOW);
+  
   while(Serial.available()){
     
     byte command = Serial.read();
